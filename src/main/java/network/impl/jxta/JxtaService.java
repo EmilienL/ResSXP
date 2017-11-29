@@ -1,5 +1,6 @@
 package network.impl.jxta;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -55,6 +56,8 @@ public class JxtaService implements Service, DiscoveryListener, PipeMsgListener{
 	protected String name;
 	protected String peerUri = null;
 	protected HashMap<String, ServiceListener> listeners = new HashMap<>();
+	
+	private BufferedWriter saveFile;
 	
 	/**
 	 * {@inheritDoc}

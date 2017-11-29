@@ -1,5 +1,7 @@
 package network.impl.jxta;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
@@ -25,6 +27,8 @@ public class JxtaPeer implements Peer{
 	private JxtaNode node;
 	private HashMap<String, Service> services;
 	
+	private BufferedWriter saveFile;
+	
 	/**
 	 * Create a new Peer (Jxta implementation)
 	 */
@@ -39,6 +43,7 @@ public class JxtaPeer implements Peer{
 	
 	@Override
 	public void start(String cache, int port, String ...bootstrap) throws IOException, PeerGroupException, RuntimeException {
+		this.saveFile = new BufferedWriter(new FileWriter("saveFile"+this.getIp()));
 		node.initialize(cache, "sxp peer", true);
 		this.bootstrap(bootstrap);
 		node.start(port);
@@ -46,6 +51,12 @@ public class JxtaPeer implements Peer{
 
 	@Override
 	public void stop() {
+		try {
+			this.saveFile.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		node.stop();
 	}
 
